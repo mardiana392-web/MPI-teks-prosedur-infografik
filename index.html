@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MPI Teks Prosedur — Mardiana, S.Pd.</title>
+<style>
+:root{--navy:#123d72;--blue:#1687d9;--mint:#c9f2df;--green:#229b70;--coral:#ff887b;--yellow:#ffd66e;--cream:#fffaf0;--lav:#e3e8ff;--ink:#18324d;--white:#fff;--shadow:0 14px 32px #16416b20}
+*{box-sizing:border-box}body{margin:0;font-family:ui-rounded,"Trebuchet MS",Arial,sans-serif;color:var(--ink);background:linear-gradient(135deg,#e7f8f0,#eef3ff 55%,#fff1e8);min-height:100vh}
+button{font:inherit;cursor:pointer;border:0;transition:.18s transform,.18s filter}button:hover{transform:translateY(-2px);filter:brightness(1.03)}button:focus-visible{outline:3px solid #ff9f43;outline-offset:3px}
+.app{max-width:1180px;margin:auto;padding:18px}.topbar{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px;flex-wrap:wrap}.brand{font-weight:900;color:var(--navy);letter-spacing:.2px}.controls{display:flex;gap:8px;flex-wrap:wrap}.smallbtn{padding:9px 13px;border-radius:14px;background:white;color:var(--navy);box-shadow:0 4px 12px #123d7210;font-weight:800}
+.stage{position:relative;min-height:620px;aspect-ratio:16/9;overflow:hidden;background:var(--cream);border:1px solid #ffffffb8;border-radius:28px;box-shadow:var(--shadow)}
+.slide{display:none;min-height:620px;height:100%;padding:clamp(22px,4vw,54px);position:relative;overflow:auto}.slide.active{display:flex;flex-direction:column;animation:appear .35s ease}
+@keyframes appear{from{opacity:.25;transform:translateY(6px)}to{opacity:1;transform:none}}
+h1,h2,h3,p{margin-top:0}h1{font-size:clamp(2.2rem,5vw,4.5rem);line-height:1.02;color:var(--navy);margin-bottom:14px}h2{font-size:clamp(1.65rem,3.2vw,2.65rem);color:var(--navy);margin-bottom:12px}h3{margin-bottom:8px;color:var(--navy)}p,li{font-size:clamp(1rem,1.35vw,1.2rem);line-height:1.48}.eyebrow{font-size:.82rem;font-weight:900;letter-spacing:1.4px;text-transform:uppercase;color:var(--green);margin-bottom:10px}.subtitle{font-size:clamp(1.05rem,2vw,1.5rem);max-width:700px}.teacher{font-weight:900;color:var(--navy);margin-top:20px}.hero{background:radial-gradient(circle at 85% 15%,#bfe8ff 0 12%,transparent 13%),linear-gradient(125deg,#fff8e9,#dff8ed 60%,#dce8ff)}.hero-grid{display:grid;grid-template-columns:1.15fr .85fr;align-items:center;gap:20px;flex:1}.art{min-height:260px;display:grid;place-items:center;position:relative}.blob{width:min(100%,350px);aspect-ratio:1;border-radius:38% 62% 58% 42%;background:linear-gradient(145deg,#a6e8cc,#8cc9ff);display:grid;place-items:center;box-shadow:inset -14px -18px 0 #3d83a51a,0 22px 34px #28618b20;font-size:clamp(6rem,14vw,10rem);transform:rotate(-5deg)}.float{position:absolute;background:white;border-radius:20px;padding:12px 15px;box-shadow:var(--shadow);font-size:2rem}.f1{top:10%;left:1%}.f2{right:0;top:22%}.f3{bottom:8%;left:10%}.pill{display:inline-flex;align-items:center;gap:7px;background:#fff;border-radius:999px;padding:9px 14px;font-weight:900;color:var(--navy);box-shadow:0 5px 15px #123d7210}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}.card{background:#fff;border:1px solid #e9f0f4;border-radius:22px;padding:20px;box-shadow:0 8px 20px #123d720d}.card .emoji{font-size:2rem;margin-bottom:8px}.menu-card{text-align:left;min-height:130px;color:var(--ink)}.menu-card strong{display:block;font-size:1.2rem;color:var(--navy);margin-bottom:6px}.mint{background:linear-gradient(145deg,#effff6,#d5f5e6)}.blue{background:linear-gradient(145deg,#f0f5ff,#dfe8ff)}.coral{background:linear-gradient(145deg,#fff5f1,#ffe0d9)}.yellow{background:linear-gradient(145deg,#fffced,#fff0bd)}.split{display:grid;grid-template-columns:1fr 1fr;gap:18px;align-items:start}.steps{display:grid;gap:10px}.step{display:flex;gap:12px;align-items:flex-start;background:white;border-radius:16px;padding:13px 15px;box-shadow:0 5px 14px #123d720b}.num{width:34px;height:34px;flex:none;display:grid;place-items:center;background:var(--yellow);border-radius:12px;font-weight:1000}.tag{display:inline-block;border-radius:999px;padding:5px 10px;font-size:.8rem;font-weight:900;background:var(--lav);color:#354a9a}.callout{background:#fff3c7;border-left:5px solid #ffc342;padding:14px 17px;border-radius:12px}.media-box{background:linear-gradient(145deg,#d9f4ff,#e3e8ff);border-radius:24px;min-height:250px;display:grid;place-items:center;text-align:center;padding:20px}.play{border-radius:50%;height:76px;width:76px;background:var(--coral);color:white;font-size:2rem;box-shadow:0 10px 20px #c7554a35}.progress{height:8px;border-radius:99px;background:#e7edf3;overflow:hidden;margin:14px 0}.progress>div{height:100%;width:0;background:linear-gradient(90deg,var(--green),var(--blue));transition:.3s}.question{font-size:1.2rem;font-weight:900;line-height:1.4;margin:12px 0 18px}.answers{display:grid;gap:9px}.answer{padding:13px 15px;border:2px solid #e6edf2;background:white;border-radius:15px;text-align:left;color:var(--ink);font-weight:700}.answer.correct{border-color:#31a978;background:#e4fff1}.answer.wrong{border-color:#f07870;background:#fff0ee}.feedback{min-height:44px;font-weight:800;padding-top:12px}.primary{background:linear-gradient(135deg,var(--blue),var(--navy));color:white;border-radius:15px;padding:12px 20px;font-weight:900;box-shadow:0 7px 16px #123d7222}.secondary{background:#e8f6ee;color:#176e51;border-radius:15px;padding:12px 18px;font-weight:900}.navrow{display:flex;justify-content:space-between;gap:10px;align-items:center;margin-top:auto;padding-top:20px}.navrow button:disabled{opacity:.35;cursor:not-allowed;transform:none}.center{text-align:center;align-items:center;justify-content:center}.bigemoji{font-size:clamp(4rem,10vw,7rem)}.hidden{display:none!important}.success{background:radial-gradient(circle at 50% 15%,#fff0ac,transparent 40%),linear-gradient(135deg,#e3fff0,#e6edff)}.reflection{display:grid;gap:10px}.reflection label{display:flex;gap:10px;background:white;padding:12px 15px;border-radius:14px;align-items:center;font-weight:700}.reflection input{accent-color:var(--green);width:18px;height:18px}
+.footer{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:12px 4px;color:#55708a;font-size:.9rem}.dots{display:flex;gap:5px}.dot{width:8px;height:8px;background:#c5d6e2;border-radius:50%}.dot.on{background:var(--blue);width:22px;border-radius:9px}
+@media(max-width:700px){.app{padding:8px}.stage{aspect-ratio:auto;min-height:80vh;border-radius:20px}.slide{min-height:80vh;padding:22px}.hero-grid,.split{grid-template-columns:1fr}.art{min-height:180px}.blob{width:190px}.float{font-size:1.3rem}.grid{grid-template-columns:1fr 1fr}.card{padding:14px}.menu-card{min-height:120px}.footer{font-size:.75rem}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div class="app">
+  <header class="topbar">
+    <div class="brand">🌿 MPI BAHASA INDONESIA • KELAS VII</div>
+    <div class="controls">
+      <button class="smallbtn" id="voiceBtn" title="Aktifkan atau matikan narasi">🔊 Suara Perempuan: ON</button>
+      <button class="smallbtn" id="homeBtn">⌂ Beranda</button>
+    </div>
+  </header>
+  <main class="stage" aria-live="polite">
+    <section class="slide active hero" data-title="Sampul">
+      <div class="hero-grid">
+        <div>
+          <div class="eyebrow">Bab 3 • Hal yang Baik bagi Tubuh</div>
+          <h1>Teks<br><span style="color:#1687d9">Prosedur</span></h1>
+          <p class="subtitle">Belajar hidup sehat, menyusun langkah, dan membaca infografik dengan cermat!</p>
+          <span class="pill">📘 Bahasa Indonesia • Kelas VII</span>
+          <div class="teacher">Mardiana, S.Pd.<br><span style="font-weight:600">SMP Negeri 12 Kolaka Utara</span></div>
+        </div>
+        <div class="art"><div class="blob">🥤</div><div class="float f1">🍓</div><div class="float f2">💧</div><div class="float f3">📱</div></div>
+      </div>
+      <div class="navrow"><span class="tag">MPI interaktif • 10 soal bertingkat</span><button class="primary" onclick="go(1)">Mulai Belajar →</button></div>
+    </section>
+    <section class="slide" data-title="Apersepsi">
+      <div class="eyebrow">01 • Ayo berpikir</div><h2>Tubuh Sehat, Belajar Semangat!</h2>
+      <div class="split">
+        <div class="card mint"><div class="bigemoji">🤔🍎</div><h3>Pertanyaan pemantik</h3><p>Bagaimana cara menjelaskan langkah hidup sehat agar orang lain mudah memahami dan mempraktikkannya?</p></div>
+        <div class="card"><h3>Hari ini kita akan…</h3><p>✨ belajar menyampaikan langkah secara runtut, membuat vlog sederhana, dan memahami pesan infografik kesehatan.</p><button class="secondary" onclick="speak('Halo, teman-teman! Siap belajar? Bagaimana cara menjelaskan langkah hidup sehat agar mudah dipahami dan dipraktikkan? Yuk, kita temukan jawabannya bersama!')">▶ Dengarkan narasi</button></div>
+      </div>
+      <div class="navrow"><button class="secondary" onclick="go(0)">← Sebelumnya</button><button class="primary" onclick="go(2)">Lanjut →</button></div>
+    </section>
+    <section class="slide" data-title="Menu Belajar">
+      <div class="eyebrow">02 • Navigasi</div><h2>Pilih Petualangan Belajarmu!</h2>
+      <p>Tekan kartu untuk membuka bagian yang ingin kamu pelajari.</p>
+      <div class="grid">
+        <button class="card menu-card mint" onclick="go(3)"><div class="emoji">🎯</div><strong>Tujuan Pembelajaran</strong><span>Kenali target belajarmu</span></button>
+        <button class="card menu-card blue" onclick="go(4)"><div class="emoji">📚</div><strong>Materi</strong><span>Teks prosedur dan infografik</span></button>
+        <button class="card menu-card coral" onclick="go(7)"><div class="emoji">🎬</div><strong>Video Edukasi</strong><span>Simulasi langkah sehat</span></button>
+        <button class="card menu-card yellow" onclick="startQuiz()"><div class="emoji">🧠</div><strong>Kuis Interaktif</strong><span>10 soal bertingkat</span></button>
+      </div>
+      <div class="navrow"><button class="secondary" onclick="go(1)">← Sebelumnya</button><button class="primary" onclick="go(3)">Mulai dari Tujuan →</button></div>
+    </section>
+    <section class="slide" data-title="Tujuan Pembelajaran">
+      <div class="eyebrow">03 • Tujuan</div><h2>Setelah belajar, aku mampu…</h2>
+      <div class="steps">
+        <div class="step"><span class="num">1</span><div><b>Menyajikan teks prosedur secara lisan</b><br>Menjelaskan langkah dengan suara jelas dan urutan yang tepat.</div></div>
+        <div class="step"><span class="num">2</span><div><b>Menyajikan teks prosedur secara visual</b><br>Membuat poster atau diagram langkah yang mudah dibaca.</div></div>
+        <div class="step"><span class="num">3</span><div><b>Menyajikan teks prosedur secara audiovisual</b><br>Merancang vlog sederhana dengan narasi dan gambar yang sesuai.</div></div>
+        <div class="step"><span class="num">4</span><div><b>Memahami infografik kesehatan</b><br>Menemukan pesan utama, membaca data, dan menilai sumber informasi.</div></div>
+      </div>
+      <div class="navrow"><button class="secondary" onclick="go(2)">← Menu</button><button class="primary" onclick="go(4)">Pelajari Materi →</button></div>
+    </section>
+    <section class="slide" data-title="Materi Inti">
+      <div class="eyebrow">04 • Materi inti</div><h2>Dua Keterampilan, Satu Tujuan: Hidup Lebih Baik</h2>
+      <div class="grid">
+        <div class="card mint"><div class="emoji">🪜</div><h3>A. Menyajikan Teks Prosedur</h3><p>Langkah runtut, bahasa jelas, dan media yang sesuai dengan audiens.</p></div>
+        <div class="card blue"><div class="emoji">📊</div><h3>B. Memahami Infografik</h3><p>Menghubungkan judul, ikon, teks, data, dan sumber untuk menemukan pesan.</p></div>
+        <div class="card coral"><div class="emoji">🎥</div><h3>C. Membuat Vlog</h3><p>Rencanakan, rekam, narasikan, lalu periksa kejelasan dan keamanan isi.</p></div>
+        <div class="card yellow"><div class="emoji">💡</div><h3>Ingat!</h3><p>Informasi menarik belum tentu benar. Periksa sumber dan konteks data kesehatan.</p></div>
+      </div>
+      <div class="navrow"><button class="secondary" onclick="go(3)">← Tujuan</button><button class="primary" onclick="go(5)">Lanjutkan →</button></div>
+    </section>
+    <section class="slide" data-title="Menyajikan Teks Prosedur">
+      <div class="eyebrow">05 • Materi A</div><h2>Sampaikan Langkah dengan Jelas</h2>
+      <div class="split">
+        <div class="card"><h3>Struktur umum</h3><div class="steps">
+          <div class="step"><span class="num">1</span><div><b>Tujuan</b><br>Hasil yang ingin dicapai.</div></div>
+          <div class="step"><span class="num">2</span><div><b>Alat dan bahan</b><br>Perlengkapan yang diperlukan, jika ada.</div></div>
+          <div class="step"><span class="num">3</span><div><b>Langkah-langkah</b><br>Tindakan berurutan dan mudah diikuti.</div></div>
+          <div class="step"><span class="num">4</span><div><b>Penutup</b><br>Simpulan atau saran, jika diperlukan.</div></div>
+        </div></div>
+        <div class="card mint"><h3>Pilih media</h3><p>🗣️ <b>Lisan:</b> presentasi atau demonstrasi.</p><p>🖼️ <b>Visual:</b> poster, diagram, kartu langkah.</p><p>📹 <b>Audiovisual:</b> vlog atau video demonstrasi.</p><div class="callout"><b>Contoh kalimat:</b> “Pertama, cuci buah. Kemudian, potong dengan hati-hati. Terakhir, sajikan dalam wadah bersih.”</div></div>
+      </div>
+      <div class="navrow"><button class="secondary" onclick="go(4)">← Materi Inti</button><button class="primary" onclick="go(6)">Infografik →</button></div>
+    </section>
+    <section class="slide" data-title="Infografik Kesehatan">
+      <div class="eyebrow">06 • Materi B</div><h2>Baca Infografik dengan Cermat</h2>
+      <div class="split">
+        <div class="card blue"><h3>Bagian yang diamati</h3><p>🔎 <b>Judul:</b> topik utama.</p><p>🧾 <b>Teks:</b> penjelasan dan pesan.</p><p>🧩 <b>Ikon/ilustrasi:</b> membantu pemahaman.</p><p>📈 <b>Data:</b> angka dan satuan, jika ada.</p><p>🔗 <b>Sumber:</b> asal informasi yang dapat diperiksa.</p></div>
+        <div class="card mint"><h3>Contoh pesan kesehatan</h3><div class="steps"><div class="step">💧 Minum air secara teratur.</div><div class="step">🥗 Pilih makanan beragam dan bergizi.</div><div class="step">🏃 Bergerak aktif setiap hari.</div><div class="step">🌙 Cukup tidur sesuai kebutuhan usia.</div></div><p><small>Gunakan informasi kesehatan dari sumber tepercaya dan perhatikan konteksnya.</small></p></div>
+      </div>
+      <div class="navrow"><button class="secondary" onclick="go(5)">← Teks Prosedur</button><button class="primary" onclick="go(7)">Tonton Simulasi →</button></div>
+    </section>
+    <section class="slide" data-title="Video Edukasi">
+      <div class="eyebrow">07 • Video edukasi</div><h2>Simulasi: Bekal Sehat, Caraku!</h2>
+      <div class="split">
+        <div class="media-box"><div><div class="bigemoji">🍎🥣</div><button class="play" onclick="playDemo()" aria-label="Putar simulasi">▶</button><p><b id="demoStatus">Putar narasi simulasi</b></p><div class="progress"><div id="demoProgress"></div></div><small>Simulasi narasi 4 langkah • dapat diputar ulang</small></div></div>
+        <div><h3>Misi menonton</h3><ol><li>Tentukan tujuan kegiatan.</li><li>Catat alat dan bahan.</li><li>Temukan penanda urutan.</li><li>Nilai apakah langkahnya jelas dan aman.</li></ol><div class="callout">Video demonstrasi ini berupa simulasi narasi dan ilustrasi. Guru dapat menggantinya dengan video nyata yang dibuat di kelas.</div></div>
+      </div>
+      <div class="navrow"><button class="secondary" onclick="go(6)">← Infografik</button><button class="primary" onclick="startQuiz()">Mulai Kuis →</button></div>
+    </section>
+    <section class="slide" data-title="Kuis Interaktif" id="quizSlide">
+      <div class="eyebrow">08 • Asesmen bertingkat</div><h2>Tantangan Si Sehat!</h2>
+      <div class="progress"><div id="quizProgress"></div></div>
+      <div style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap"><span class="tag" id="levelTag">Mudah</span><span class="pill" id="countTag">Soal 1 dari 10</span><span class="pill" id="scoreTag">Skor: 0</span></div>
+      <div class="card" style="margin-top:16px">
+        <div id="question" class="question"></div><div id="answers" class="answers"></div><div id="feedback" class="feedback" role="status"></div>
+        <div class="navrow"><button class="secondary" onclick="go(7)">← Video</button><button class="primary" id="nextQuestion" onclick="nextQ()" disabled>Jawaban berikutnya →</button></div>
+      </div>
+      <p><small>Skor: mudah 5 poin, sedang 10 poin, sulit 15 poin. Baca setiap pilihan sebelum menjawab.</small></p>
+    </section>
+    <section class="slide success" data-title="Hasil Kuis" id="resultSlide">
+      <div class="bigemoji">🏆🎉</div><div class="eyebrow">Kuis selesai</div><h2 id="resultTitle">Hebat! Kamu Berhasil!</h2><p id="resultScore" class="subtitle"></p><div class="card" style="max-width:620px;width:100%"><h3>Umpan balik belajarmu</h3><p id="resultFeedback"></p><p>Ingat: susun langkah secara runtut, pilih media yang sesuai, dan periksa informasi kesehatan dari sumber tepercaya.</p></div>
+      <div class="navrow" style="justify-content:center"><button class="secondary" onclick="startQuiz()">↻ Ulangi Kuis</button><button class="primary" onclick="go(10)">Refleksi →</button></div>
+    </section>
+    <section class="slide" data-title="Refleksi">
+      <div class="eyebrow">09 • Refleksi</div><h2>Aku Belajar, Aku Bertumbuh!</h2><p>Pilih pernyataan yang sesuai dengan pengalamanmu hari ini.</p>
+      <div class="reflection">
+        <label><input type="checkbox"> Saya dapat menyajikan teks prosedur secara lisan, visual, atau audiovisual.</label>
+        <label><input type="checkbox"> Saya dapat mengenali langkah dan bahasa yang runtut.</label>
+        <label><input type="checkbox"> Saya dapat menemukan pesan utama dalam infografik kesehatan.</label>
+        <label><input type="checkbox"> Saya akan memeriksa sumber informasi sebelum mempercayainya.</label>
+      </div>
+      <div class="card mint" style="margin-top:16px"><h3>Kalimat penutup</h3><p>“Tubuh sehat dimulai dari kebiasaan baik. Sampaikan langkahnya dengan jelas, sajikan informasi dengan menarik, dan praktikkan dengan bijak!”</p><b>Mardiana, S.Pd. • SMP Negeri 12 Kolaka Utara</b></div>
+      <div class="navrow"><button class="secondary" onclick="go(8)">← Hasil Kuis</button><button class="primary" onclick="go(0)">Kembali ke Sampul ↺</button></div>
+    </section>
+  </main>
+  <footer class="footer"><span id="slideCounter">Slide 1 dari 10</span><div class="dots" id="dots"></div><span>🌱 Belajar sehat, belajar hebat</span></footer>
+</div>
+<script>
+const slides=[...document.querySelectorAll('.slide')];let current=0;let voiceOn=true;let qIndex=0,score=0,answered=false,correctCount=0;
+function go(i){if(i<0||i>=slides.length)return;current=i;slides.forEach((s,j)=>s.classList.toggle('active',j===i));document.getElementById('slideCounter').textContent=`Slide ${i+1} dari ${slides.length}`;document.querySelectorAll('.dot').forEach((d,j)=>d.classList.toggle('on',j===i));if(voiceOn){const title=slides[i].dataset.title;if(title && i!==8) speak(title);} }
+document.getElementById('homeBtn').addEventListener('click',()=>go(0));
+const dots=document.getElementById('dots');slides.forEach((_,i)=>{const d=document.createElement('span');d.className='dot'+(i===0?' on':'');d.title='Slide '+(i+1);d.addEventListener('click',()=>go(i));dots.appendChild(d)});
+function chooseFemaleVoice(){if(!('speechSynthesis'in window))return null;const voices=speechSynthesis.getVoices();return voices.find(v=>/id[-_]ID/i.test(v.lang)&&/female|perempuan|gadis|woman/i.test(v.name))||voices.find(v=>/id[-_]ID/i.test(v.lang))||voices.find(v=>/female|woman/i.test(v.name))||voices[0]||null}
+function speak(text){if(!voiceOn||!('speechSynthesis'in window))return;speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(text);u.lang='id-ID';u.rate=.94;u.pitch=1.12;u.volume=1;const v=chooseFemaleVoice();if(v)u.voice=v;speechSynthesis.speak(u)}
+document.getElementById('voiceBtn').addEventListener('click',()=>{voiceOn=!voiceOn;document.getElementById('voiceBtn').textContent=`🔊 Suara Perempuan: ${voiceOn?'ON':'OFF'}`;if(!voiceOn&&'speechSynthesis'in window)speechSynthesis.cancel();else speak('Narasi suara diaktifkan. Selamat belajar!')});
+if('speechSynthesis'in window)speechSynthesis.onvoiceschanged=()=>{};
+const qs=[
+{level:'Mudah',points:5,q:'1. Kalimat manakah yang menggunakan kata kerja tindakan?',a:['Tubuh terasa segar.','Potong buah menjadi bagian kecil.','Buah itu berwarna merah.','Minuman itu sangat lezat.'],c:1,why:'“Potong” menyatakan tindakan yang perlu dilakukan.'},
+{level:'Mudah',points:5,q:'2. Kata yang menunjukkan urutan langkah adalah …',a:['Sangat','Lezat','Kemudian','Sehat'],c:2,why:'“Kemudian” membantu pembaca mengikuti urutan tindakan.'},
+{level:'Mudah',points:5,q:'3. Bagian teks prosedur yang menjelaskan hasil yang ingin dicapai adalah …',a:['Tujuan','Ilustrasi','Daftar pustaka','Komentar pembaca'],c:0,why:'Tujuan menjelaskan hasil atau kegiatan yang hendak dilakukan.'},
+{level:'Sedang',points:10,q:'4. Urutan membuat minuman buah yang paling logis adalah …',a:['Sajikan, cuci buah, potong buah.','Potong buah, sajikan, cuci buah.','Cuci buah, potong buah, olah dan sajikan.','Olah buah, sajikan, baru cuci buah.'],c:2,why:'Bahan dibersihkan dahulu, kemudian dipotong, diolah, dan disajikan.'},
+{level:'Sedang',points:10,q:'5. Kamu membuat poster cara mencuci tangan. Agar pembaca mudah mengikuti langkah, desain terbaik adalah …',a:['Paragraf panjang tanpa gambar','Langkah bernomor dengan gambar yang sesuai','Hiasan sebanyak mungkin','Tulisan kecil dengan banyak warna'],c:1,why:'Nomor dan gambar yang relevan membantu pembaca memahami urutan.'},
+{level:'Sedang',points:10,q:'6. Infografik menampilkan ikon air, buah, aktivitas fisik, dan tidur. Kesimpulan paling tepat adalah …',a:['Satu kebiasaan saja menjamin sehat','Infografik hanya untuk hiasan','Kesehatan didukung beragam kebiasaan baik','Semua orang membutuhkan jumlah tidur yang sama persis'],c:2,why:'Ikon menunjukkan beberapa kebiasaan yang bersama-sama mendukung kesehatan.'},
+{level:'Sedang',points:10,q:'7. Dalam vlog, gambar menunjukkan langkah kedua tetapi narator menyebut “langkah pertama”. Apa perbaikan terbaik?',a:['Tambahkan musik lebih keras','Samakan narasi, urutan gambar, dan penanda langkah','Hapus semua penjelasan','Percepat seluruh video'],c:1,why:'Narasi dan gambar harus konsisten agar petunjuk tidak membingungkan.'},
+{level:'Sulit',points:15,q:'8. Sebuah infografik mencantumkan angka kesehatan yang mengejutkan, tetapi tidak mencantumkan sumber atau tanggal. Sikap paling tepat adalah …',a:['Langsung membagikannya','Mempercayainya karena desainnya menarik','Memeriksa sumber tepercaya dan konteks data sebelum menyimpulkan','Menganggap semua angka pasti salah'],c:2,why:'Desain menarik bukan bukti kebenaran; periksa sumber, tanggal, dan konteks.'},
+{level:'Sulit',points:15,q:'9. Teman membuat vlog “Cara menyiapkan bekal sehat”, tetapi tidak menunjukkan kebersihan alat. Saran paling berguna adalah …',a:['Tambahkan efek transisi saja','Hilangkan bagian alat dan bahan','Tampilkan alat bersih dan jelaskan kebersihan sebelum mulai','Ganti judul menjadi lebih panjang'],c:2,why:'Kebersihan merupakan aspek penting dalam prosedur menyiapkan makanan.'},
+{level:'Sulit',points:15,q:'10. Kamu diminta membuat panduan singkat untuk siswa baru tentang kebiasaan sehat. Paket penyajian yang paling kuat adalah …',a:['Infografik dengan pesan ringkas, sumber jelas, dan vlog yang mendemonstrasikan langkah aman','Poster penuh teks tanpa sumber','Video lucu tanpa urutan tindakan','Daftar angka tanpa penjelasan'],c:0,why:'Gabungan visual dan demonstrasi, dengan sumber yang jelas dan langkah aman, membantu pemahaman.'}
+];
+function startQuiz(){qIndex=0;score=0;correctCount=0;answered=false;go(8);renderQ()}
+function renderQ(){const q=qs[qIndex];answered=false;document.getElementById('levelTag').textContent='Tingkat '+q.level+' • '+q.points+' poin';document.getElementById('countTag').textContent=`Soal ${qIndex+1} dari ${qs.length}`;document.getElementById('scoreTag').textContent='Skor: '+score;document.getElementById('quizProgress').style.width=((qIndex)/qs.length*100)+'%';document.getElementById('question').textContent=q.q;document.getElementById('feedback').textContent='';document.getElementById('nextQuestion').disabled=true;document.getElementById('nextQuestion').textContent=qIndex===qs.length-1?'Lihat Hasil 🏆':'Jawaban berikutnya →';const a=document.getElementById('answers');a.innerHTML='';q.a.forEach((label,i)=>{const b=document.createElement('button');b.className='answer';b.textContent=String.fromCharCode(65+i)+'. '+label;b.onclick=()=>answer(i,b);a.appendChild(b)});if(voiceOn)speak(q.q)}
+function answer(i,btn){if(answered)return;answered=true;const q=qs[qIndex];const buttons=[...document.querySelectorAll('.answer')];buttons.forEach((b,j)=>{b.disabled=true;if(j===q.c)b.classList.add('correct')});if(i===q.c){score+=q.points;correctCount++;document.getElementById('feedback').textContent='🎉 Tepat! '+q.why;btn.classList.add('correct');celebrate();if(voiceOn)speak('Hebat! Jawaban kamu benar. '+q.why)}else{btn.classList.add('wrong');document.getElementById('feedback').textContent='💡 Belum tepat. '+q.why;if(voiceOn)speak('Belum tepat. '+q.why)}document.getElementById('scoreTag').textContent='Skor: '+score;document.getElementById('nextQuestion').disabled=false}
+function nextQ(){if(!answered)return;if(qIndex<qs.length-1){qIndex++;renderQ()}else showResult()}
+function showResult(){go(9-0);/* result slide index is 8? fixed below */const result=slides.findIndex(s=>s.id==='resultSlide');go(result);document.getElementById('quizProgress').style.width='100%';document.getElementById('resultScore').textContent=`Skor kamu ${score} dari 100 poin • ${correctCount} dari 10 jawaban benar.`;let msg=correctCount>=9?'Luar biasa! Kamu sangat siap menyajikan teks prosedur dan membaca infografik.':correctCount>=7?'Bagus sekali! Tinjau kembali beberapa bagian agar makin percaya diri.':correctCount>=5?'Usaha yang baik! Pelajari kembali struktur, media penyajian, dan cara memeriksa informasi.':'Terus berlatih! Baca materi lagi, lalu coba kuis sekali lagi.';document.getElementById('resultFeedback').textContent=msg;document.getElementById('resultTitle').textContent=correctCount>=7?'Hebat! Kamu Berhasil!':'Kamu Sudah Berusaha! Ayo Berlatih Lagi';if(voiceOn)speak('Kuis selesai. '+msg+' Skor kamu '+score+' dari 100.');}
+function celebrate(){if(!voiceOn)return;/* Browser audio synthesis is used; voice remains accessible without external files. */}
+const demoLines=['Halo, teman-teman! Hari ini kita akan menyiapkan camilan buah sederhana.','Pertama, cuci tangan dan pastikan alat serta wadah bersih.','Kemudian, cuci buah dan potong dengan hati-hati menggunakan alat yang sesuai dan pengawasan bila diperlukan.','Terakhir, susun buah dalam wadah bersih dan sajikan. Periksa kembali kebersihan sebelum dimakan.'];
+let demoTimer=null;function playDemo(){if(demoTimer)clearInterval(demoTimer);let i=0;const p=document.getElementById('demoProgress');const status=document.getElementById('demoStatus');p.style.width='0%';function next(){if(i>=demoLines.length){status.textContent='Simulasi selesai!';p.style.width='100%';clearInterval(demoTimer);return}status.textContent='Langkah '+(i+1)+' dari '+demoLines.length; if(voiceOn)speak(demoLines[i]);p.style.width=(i/demoLines.length*100)+'%';i++}next();demoTimer=setInterval(next,4000)}
+// Keyboard shortcuts for classroom presentation
+document.addEventListener('keydown',e=>{if(e.key==='ArrowRight'&&current!==8)go(Math.min(current+1,slides.length-1));if(e.key==='ArrowLeft')go(Math.max(current-1,0))});
+</script>
+</body>
+</html>
